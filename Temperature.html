@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('C:\\Users\\ASHOK\\Downloads\\hand-drawn-seasons-set_23-2149115073.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #converter {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div id="converter">
+    <h2 style="color: #333;">Temperature Converter</h2>
+    <label for="temperature">Temperature:</label>
+    <input type="number" id="temperature" placeholder="Enter temperature" oninput="convertTemperature()" style="background-color: #f2f2f2;">
+
+    <label for="unit">Unit:</label>
+    <select id="unit" onchange="convertTemperature()">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+        <option value="kelvin">Kelvin</option>
+        <option value="rankine">Rankine</option>
+    </select>
+
+    <label for="atmosphere">Atmosphere:</label>
+    <select id="atmosphere" onchange="convertTemperature()">
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+        <option value="low">Low</option>
+    </select>
+
+    <button onclick="resetValues()">Reset</button>
+</div>
+
+<script>
+    function convertTemperature() {
+        let temperatureInput = document.getElementById("temperature");
+        let unitSelect = document.getElementById("unit");
+        let atmosphereSelect = document.getElementById("atmosphere");
+
+        let temperatureValue = parseFloat(temperatureInput.value);
+        let unit = unitSelect.value;
+        let atmosphere = atmosphereSelect.value;
+
+        if (!isNaN(temperatureValue)) {
+            let convertedTemperature = convert(temperatureValue, unit, atmosphere);
+            displayConvertedTemperature(convertedTemperature);
+        }
+    }
+
+    function convert(temperature, unit, atmosphere) {
+        switch (unit) {
+            case "celsius":
+                return convertCelsius(temperature, atmosphere);
+            case "fahrenheit":
+                return convertFahrenheit(temperature, atmosphere);
+            case "kelvin":
+                return convertKelvin(temperature, atmosphere);
+            case "rankine":
+                return convertRankine(temperature, atmosphere);
+            default:
+                return NaN;
+        }
+    }
+
+    function convertCelsius(temperature, atmosphere) {
+        switch (atmosphere) {
+            case "high":
+                return temperature + 10;
+            case "low":
+                return temperature - 10;
+            default:
+                return temperature;
+        }
+    }
+
+    function convertFahrenheit(temperature, atmosphere) {
+        switch (atmosphere) {
+            case "high":
+                return (temperature + 10) * 9/5 + 32;
+            case "low":
+                return (temperature - 10) * 9/5 + 32;
+            default:
+                return temperature;
+        }
+    }
+
+    function convertKelvin(temperature, atmosphere) {
+        switch (atmosphere) {
+            case "high":
+                return temperature + 10 + 273.15;
+            case "low":
+                return temperature - 10 + 273.15;
+            default:
+                return temperature + 273.15;
+        }
+    }
+
+    function convertRankine(temperature, atmosphere) {
+        switch (atmosphere) {
+            case "high":
+                return (temperature + 10) * 9/5;
+            case "low":
+                return (temperature - 10) * 9/5;
+            default:
+                return temperature * 9/5;
+        }
+    }
+
+    function displayConvertedTemperature(convertedTemperature) {
+        let celsiusInput = document.getElementById("temperature");
+        let unitSelect = document.getElementById("unit");
+
+        switch (unitSelect.value) {
+            case "celsius":
+                document.getElementById("temperature").value = convertedTemperature.toFixed(2);
+                break;
+            case "fahrenheit":
+                document.getElementById("temperature").value = convertedTemperature.toFixed(2);
+                break;
+            case "kelvin":
+                document.getElementById("temperature").value = (convertedTemperature - 273.15).toFixed(2);
+                break;
+            case "rankine":
+                document.getElementById("temperature").value = (convertedTemperature * 5/9).toFixed(2);
+                break;
+        }
+    }
+
+    function resetValues() {
+        document.getElementById("temperature").value = "";
+        document.getElementById("unit").value = "celsius";
+        document.getElementById("atmosphere").value = "normal";
+    }
+</script>
+
+</body>
+</html>
